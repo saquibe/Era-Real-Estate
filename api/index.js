@@ -1,14 +1,16 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-mongoose.connect("mongodb+srv://saquibe143:saquib%40143@cluster0.9t5hd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",{
-
-}).then(()=>{
-    console.log("Database connected")
-}).catch((error)=>{
-console.log("OOps!@Something went wrong", error);
-
+mongoose
+.connect(process.env.MONGO)
+.then(() => {
+    console.log("Connected to MongoDB!");
 })
+.catch((err) => {
+    console.log(err); 
+});
 
 const app  = express();
 
