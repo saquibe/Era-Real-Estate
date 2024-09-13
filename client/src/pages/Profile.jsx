@@ -16,7 +16,6 @@ import {
   deleteUserSuccess,
   signOutUserFailure,
   signOutUserStart,
-  signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { Link } from "react-router-dom";
 
@@ -53,12 +52,13 @@ export default function Profile() {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePerc(Math.round(progress));
+        setFilePerc(Math.round(progress)); // Update file upload progress
       },
       (error) => {
-        setFileUploadError(true);
+        setFileUploadError(true); // Handle the error when upload fails
       },
       () => {
+        // Get the download URL after the upload completes
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
           setFormData({ ...formData, avatar: downloadURL })
         );
@@ -158,7 +158,7 @@ export default function Profile() {
         <input
           type="text"
           placeholder="username"
-          defaultValue={currentUser.name}
+          defaultValue={currentUser.username}
           id="username"
           className="border p-3 rounded-lg"
           onChange={handleChange}
