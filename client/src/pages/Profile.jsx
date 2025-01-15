@@ -203,7 +203,8 @@ export default function Profile() {
         </span>
       </div>
 
-      <p className="text-green-700 mt-5">
+      <p className="text-red-700 mt-5 text-center">{error ? error : ""}</p>
+      <p className="text-green-700 mt-5 text-center">
         {updateSuccess ? "User updated successfully!" : ""}
       </p>
     </div>
