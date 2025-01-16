@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -26,5 +27,32 @@ export const deleteListing = async (req, res, next) => {
     res.status(200).json("Listing has been deleted!");
   } catch (error) {
     next(error);
+  }
+};
+
+export const updateListing = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid listing ID" });
+  }
+
+  try {
+    const listing = await Listing.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!listing) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Listing not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Listing updated successfully",
+      listing,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
