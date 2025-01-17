@@ -259,7 +259,7 @@ export default function Profile() {
           {userListings.map((listing) => (
             <div
               key={listing._id}
-              className="border rounded-lg p-3 flex justify-between items-center gep-4"
+              className="border rounded-lg p-3 flex justify-between items-center gap-6"
             >
               <Link to={`/listing/${listing._id}`}>
                 <img
