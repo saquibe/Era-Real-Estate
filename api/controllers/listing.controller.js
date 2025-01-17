@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -30,30 +30,23 @@ export const deleteListing = async (req, res, next) => {
   }
 };
 
-export const updateListing = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid listing ID" });
+export const updateListing = async (req, res, next) => {
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, "Listing not found!"));
   }
-
+  if (req.user.id !== listing.userRef) {
+    return next(errorHandler(401, "You can only update your own listings!"));
+  }
   try {
-    const listing = await Listing.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    if (!listing) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Listing not found" });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Listing updated successfully",
-      listing,
-    });
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedListing);
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    next(error);
   }
 };
 
