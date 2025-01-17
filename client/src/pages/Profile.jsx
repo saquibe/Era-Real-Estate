@@ -243,7 +243,10 @@ export default function Profile() {
       <p className="text-green-700 mt-5 text-center">
         {updateSuccess ? "User updated successfully!" : ""}
       </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
+      <button
+        onClick={handleShowListings}
+        className="text-green-700 w-full hover:underline font-semibold"
+      >
         Show Listings
       </button>
       <p>{showListingsError ? "Error showing listings" : ""}</p>
@@ -278,7 +281,9 @@ export default function Profile() {
                 >
                   delete
                 </button>
-                <button className="text-green-700 uppercase">edit</button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700 uppercase">edit</button>
+                </Link>
               </div>
             </div>
           ))}
