@@ -9,8 +9,6 @@ import path from "path";
 
 dotenv.config();
 
-console.log("Mongo URI:", process.env.MONGO);
-
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
